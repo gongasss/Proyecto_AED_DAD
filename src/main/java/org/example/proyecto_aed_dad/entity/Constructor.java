@@ -24,16 +24,16 @@ public class Constructor {
     private String url;
 
     @OneToMany(mappedBy = "constructor", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ConstructorsResult> constructorResults;
+    private List<ConstructorsResult> constructorResults; // resultados de cada carrera (solo constructores)
 
     @OneToMany(mappedBy = "constructor", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ConstructorStanding> constructorStandings;
+    private List<ConstructorStanding> constructorStandings; // posicion en el campeonato en cada carrera
 
     @OneToMany(mappedBy = "constructor", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Result> results;
+    private List<Result> results; // resultados de cada carrera con pilotos incluidos
 
     @OneToMany(mappedBy = "constructor", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<SprintResult> sprintResults;
+    private List<SprintResult> sprintResults; // resultados de cada sprint con pilotos incluidos
 
     @OneToMany(mappedBy = "constructor", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Qualifying> qualifyingResults;

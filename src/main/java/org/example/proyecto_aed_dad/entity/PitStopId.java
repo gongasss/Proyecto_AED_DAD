@@ -9,31 +9,29 @@ import java.util.Objects;
 public class PitStopId implements java.io.Serializable {
     private static final long serialVersionUID = -8369786972710162616L;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "raceId", nullable = false)
-    private Race race;
+    @Column(name = "raceId", nullable = false)
+    private Integer raceId;
 
-    @JoinColumn(name = "driverId", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Driver driver;
+    @Column(name = "driverId", nullable = false)
+    private Integer driverId;
 
     @Column(name = "stop", nullable = false)
     private Integer stop;
 
     public Integer getRaceId() {
-        return race.getId();
+        return raceId;
     }
 
     public void setRaceId(Integer raceId) {
-        this.race.setId(raceId);
+        this.raceId = raceId;
     }
 
     public Integer getDriverId() {
-        return driver.getId();
+        return driverId;
     }
 
     public void setDriverId(Integer driverId) {
-        this.driver.setId(driverId);
+        this.driverId = driverId;
     }
 
     public Integer getStop() {
@@ -49,14 +47,14 @@ public class PitStopId implements java.io.Serializable {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         PitStopId entity = (PitStopId) o;
-        return Objects.equals(this.race.getId(), entity.race.getId()) &&
-                Objects.equals(this.driver.getId(), entity.driver.getId()) &&
+        return Objects.equals(this.raceId, entity.raceId) &&
+                Objects.equals(this.driverId, entity.driverId) &&
                 Objects.equals(this.stop, entity.stop);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(race.getId(), driver.getId(), stop);
+        return Objects.hash(this.raceId, this.driverId, this.stop);
     }
 
 }

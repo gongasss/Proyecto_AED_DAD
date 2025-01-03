@@ -9,8 +9,9 @@ public class ConstructorsResult {
     @Column(name = "constructorResultsId", nullable = false)
     private Integer id;
 
-    @Column(name = "raceId")
-    private Integer raceId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "raceId", nullable = false)
+    private Race race;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "constructorId", nullable = false)
@@ -31,11 +32,11 @@ public class ConstructorsResult {
     }
 
     public Integer getRaceId() {
-        return raceId;
+        return this.race.getId();
     }
 
     public void setRaceId(Integer raceId) {
-        this.raceId = raceId;
+        this.race.setId(raceId);
     }
 
     public Constructor getConstructor() {

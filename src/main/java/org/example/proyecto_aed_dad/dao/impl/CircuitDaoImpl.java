@@ -94,4 +94,30 @@ public class CircuitDaoImpl implements org.example.proyecto_aed_dad.dao.interfac
         }
         return null;
     }
+
+    @Override
+    public List<Object[]> findTracksWithMostRaces() {
+        try {
+            // devuelve los 10 circuitos con más carreras
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+
+            String hql = """
+            SELECT c, COUNT(r)
+            FROM Race r
+            JOIN r.circuit c
+            GROUP BY c
+            ORDER BY COUNT(r) DESC
+            """;
+
+            return session.createQuery(hql, Object[].class)
+                    .setMaxResults(10) // Limita a los 10 primeros pilotos
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sessionFactory.close();
+        }
+        return null;
+    }
 }

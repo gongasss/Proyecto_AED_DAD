@@ -37,9 +37,19 @@ public class Driver {
     private String url;
 
     @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DriverStanding> driverStandings;
+    private List<DriverStanding> driverStandings; // posiciones en el campeonato en cada carrera
 
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Result> results; // resultados de cada carrera con pilotos incluidos
 
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PitStop> pitStops; // paradas de cada carrera
+
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Qualifying> qualifyings; // tiempos de clasificacion de cada carrera
+
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SprintResult> sprintResults; // resultados de cada sprint
 
     public Integer getId() {
         return id;
@@ -111,6 +121,46 @@ public class Driver {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public List<DriverStanding> getDriverStandings() {
+        return driverStandings;
+    }
+
+    public void setDriverStandings(List<DriverStanding> driverStandings) {
+        this.driverStandings = driverStandings;
+    }
+
+    public List<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Result> results) {
+        this.results = results;
+    }
+
+    public List<PitStop> getPitStops() {
+        return pitStops;
+    }
+
+    public void setPitStops(List<PitStop> pitStops) {
+        this.pitStops = pitStops;
+    }
+
+    public List<Qualifying> getQualifyings() {
+        return qualifyings;
+    }
+
+    public void setQualifyings(List<Qualifying> qualifyings) {
+        this.qualifyings = qualifyings;
+    }
+
+    public List<SprintResult> getSprintResults() {
+        return sprintResults;
+    }
+
+    public void setSprintResults(List<SprintResult> sprintResults) {
+        this.sprintResults = sprintResults;
     }
 
 }

@@ -1,9 +1,6 @@
 package org.example.proyecto_aed_dad.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalTime;
 
@@ -12,6 +9,14 @@ import java.time.LocalTime;
 public class PitStop {
     @EmbeddedId
     private PitStopId id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "raceId", nullable = false, insertable = false, updatable = false)
+    private Race race;
+
+    @JoinColumn(name = "driverId", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Driver driver;
 
     @Column(name = "lap")
     private Integer lap;

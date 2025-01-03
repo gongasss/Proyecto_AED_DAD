@@ -93,4 +93,26 @@ public class ResultDaoImpl implements org.example.proyecto_aed_dad.dao.interface
         }
         return null;
     }
+
+    @Override
+    public List<Result> getResultsByCountry(String country) {
+        Session session = sessionFactory.openSession();
+        try {
+            session.beginTransaction();
+            String hql = "SELECT r FROM Result r WHERE r.race.circuit.country = :country ORDER BY r.number";
+            List<Result> results = session.createQuery(hql, Result.class)
+                    .setParameter("country", country)
+                    .list();
+            session.getTransaction().commit();
+            return results;
+        } catch (Exception e) {
+            if(session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+                e.printStackTrace();
+            }
+        } finally {
+            session.close();
+        }
+        return null;
+    }
 }

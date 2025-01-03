@@ -3,7 +3,12 @@
     "-//Hibernate/Hibernate Configuration DTD//EN"
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
+
   <session-factory>
+    <property name="hibernate.c3p0.max_size">50</property>  <!-- Ajusta según tus necesidades -->
+    <property name="hibernate.c3p0.min_size">5</property>   <!-- Mínimo de conexiones -->
+    <property name="hibernate.c3p0.timeout">300</property>   <!-- Tiempo de espera -->
+    <property name="hibernate.c3p0.idle_test_period">300</property> <!-- Periodo de inactividad antes de cerrar conexiones -->
     <property name="connection.url">jdbc:mysql://localhost:3306/formula1</property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="connection.username">root</property>
@@ -24,6 +29,7 @@
     <mapping class="org.example.proyecto_aed_dad.entity.PitStop"/>
     <mapping class="org.example.proyecto_aed_dad.entity.Season"/>
     <mapping class="org.example.proyecto_aed_dad.entity.Status"/>
+
 
     <!--  DB schema will be updated if needed  -->
   </session-factory>

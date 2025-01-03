@@ -1,5 +1,6 @@
 package org.example.proyecto_aed_dad.dao.impl;
 
+import org.example.proyecto_aed_dad.entity.Circuit;
 import org.example.proyecto_aed_dad.entity.Driver;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -113,4 +114,86 @@ public class DriverDaoImpl implements org.example.proyecto_aed_dad.dao.interface
         }
         return driver;
     }
+    @Override
+    public List<Object[]> findDriversWithMostRaces() {
+        // devuelve los 10 pilotos con mayor cantidad de carreras
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        String hql = """
+            SELECT d, COUNT(r)
+            FROM Result r
+            JOIN r.driver d
+            GROUP BY d
+            ORDER BY COUNT(r) DESC
+            """;
+        return session.createQuery(hql, Object[].class)
+                .setMaxResults(10) // Limita a los 10 primeros pilotos
+                .getResultList();
+    }
+    @Override
+    public List<Object[]> findDriversWithMostRacesByCircuit(Circuit circuit) {
+        // devuelve los 10 pilotos con mayor cantidad de carreras
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        String hql = """
+            SELECT d, COUNT(r)
+            FROM Result r
+            JOIN r.driver d
+            JOIN r.race.circuit c
+            WHERE c = :circuit
+            GROUP BY d
+            ORDER BY COUNT(r) DESC
+            """;
+        session.getTransaction().commit();
+        return session.createQuery(hql, Object[].class)
+                .setParameter("circuit", circuit)
+                .setMaxResults(10) // Limita a los 10 primeros pilotos
+                .getResultList();
+    }
+    @Override
+    public List<Object[]> findDriversWithMostWins() {
+        // devuelve los 10 pilotos con mayor cantidad de victorias
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        String hql = """
+            SELECT d, COUNT(r)
+            FROM Result r
+            JOIN r.driver d
+            GROUP BY d
+            ORDER BY COUNT(r) DESC
+            """;
+        session.getTransaction().commit();
+        return session.createQuery(hql, Object[].class)
+                .setMaxResults(10) // Limita a los 10 primeros pilotos
+                .getResultList();
+    }
+
+    public List<Object[]> findTopDriversWithCountInCountry(String country) {
+        try {
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+
+            String hql = """
+            SELECT r.driver, COUNT(r)
+            FROM Result r
+            WHERE r.position <= 10 AND r.race.circuit.country = :country
+            GROUP BY r.driver.id
+            ORDER BY COUNT(r) DESC
+            """;
+            session.getTransaction().commit();
+            return session.createQuery(hql, Object[].class)
+                    .setParameter("country", country)
+                    .setMaxResults(10) // Limita a los 10 primeros pilotos
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sessionFactory.close();
+        }
+        return null;
+    }
+
+
+
+
 }
