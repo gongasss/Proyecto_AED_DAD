@@ -39,7 +39,7 @@ public class UserInterface {
         }
         int option = scanner.nextInt();
         scanner.nextLine();
-        if (option < 0 || option > 1) {
+        if (option < 0 || option > 7) {
             System.out.println("Opción no válida. Por favor, elige una opción entre 0 y 1.");
             return getValidOption();
         }
