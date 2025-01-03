@@ -181,6 +181,7 @@ public class DriverDaoImpl implements org.example.proyecto_aed_dad.dao.interface
             SELECT d, COUNT(r)
             FROM Result r
             JOIN r.driver d
+            WHERE r.position = 1
             GROUP BY d
             ORDER BY COUNT(r) DESC
             """;
