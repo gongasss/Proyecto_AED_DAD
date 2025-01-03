@@ -117,25 +117,37 @@ public class DriverDaoImpl implements org.example.proyecto_aed_dad.dao.interface
     @Override
     public List<Object[]> findDriversWithMostRaces() {
         // devuelve los 10 pilotos con mayor cantidad de carreras
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        String hql = """
+        Session session = null;
+        try{
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+            String hql = """
             SELECT d, COUNT(r)
             FROM Result r
             JOIN r.driver d
             GROUP BY d
             ORDER BY COUNT(r) DESC
             """;
-        return session.createQuery(hql, Object[].class)
-                .setMaxResults(10) // Limita a los 10 primeros pilotos
-                .getResultList();
+            return session.createQuery(hql, Object[].class)
+                    .setMaxResults(10) // Limita a los 10 primeros pilotos
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close(); // Solo cerramos la sesión
+            }
+        }
+        return null;
     }
     @Override
     public List<Object[]> findDriversWithMostRacesByCircuit(Circuit circuit) {
         // devuelve los 10 pilotos con mayor cantidad de carreras
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        String hql = """
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+            String hql = """
             SELECT d, COUNT(r)
             FROM Result r
             JOIN r.driver d
@@ -144,33 +156,52 @@ public class DriverDaoImpl implements org.example.proyecto_aed_dad.dao.interface
             GROUP BY d
             ORDER BY COUNT(r) DESC
             """;
-        session.getTransaction().commit();
-        return session.createQuery(hql, Object[].class)
-                .setParameter("circuit", circuit)
-                .setMaxResults(10) // Limita a los 10 primeros pilotos
-                .getResultList();
+            session.getTransaction().commit();
+            return session.createQuery(hql, Object[].class)
+                    .setParameter("circuit", circuit)
+                    .setMaxResults(10) // Limita a los 10 primeros pilotos
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close(); // Solo cerramos la sesión
+            }
+        }
+        return null;
     }
     @Override
     public List<Object[]> findDriversWithMostWins() {
         // devuelve los 10 pilotos con mayor cantidad de victorias
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        String hql = """
+        Session session = null;
+        try{
+            session = sessionFactory.openSession();
+            session.beginTransaction();
+            String hql = """
             SELECT d, COUNT(r)
             FROM Result r
             JOIN r.driver d
             GROUP BY d
             ORDER BY COUNT(r) DESC
             """;
-        session.getTransaction().commit();
-        return session.createQuery(hql, Object[].class)
-                .setMaxResults(10) // Limita a los 10 primeros pilotos
-                .getResultList();
+            session.getTransaction().commit();
+            return session.createQuery(hql, Object[].class)
+                    .setMaxResults(10) // Limita a los 10 primeros pilotos
+                    .getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close(); // Solo cerramos la sesión
+            }
+        }
+        return null;
     }
 
     public List<Object[]> findTopDriversWithCountInCountry(String country) {
+        Session session = null;
         try {
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             session.beginTransaction();
 
             String hql = """
@@ -180,7 +211,9 @@ public class DriverDaoImpl implements org.example.proyecto_aed_dad.dao.interface
             GROUP BY r.driver.id
             ORDER BY COUNT(r) DESC
             """;
+
             session.getTransaction().commit();
+
             return session.createQuery(hql, Object[].class)
                     .setParameter("country", country)
                     .setMaxResults(10) // Limita a los 10 primeros pilotos
@@ -188,7 +221,9 @@ public class DriverDaoImpl implements org.example.proyecto_aed_dad.dao.interface
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            sessionFactory.close();
+            if (session != null && session.isOpen()) {
+                session.close(); // Solo cerramos la sesión
+            }
         }
         return null;
     }

@@ -96,12 +96,25 @@ public class ConstructorDaoImpl implements org.example.proyecto_aed_dad.dao.inte
         return null;
     }
 
+    public String capitalizeFirstLetter(String word) {
+        if (word == null || word.isEmpty()) {
+            return word; // Retorna la palabra tal cual si es nula o vacía
+        }
+        // Convierte la primera letra a mayúscula y el resto a minúscula
+        return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+    }
+
+
     @Override
     public List<Object[]> findConstructorsWithMostWinsByCountry(String country) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        Session session = null;
+        try{
+            session = sessionFactory.openSession();
+            session.beginTransaction();
 
-        String hql = """
+            country = capitalizeFirstLetter(country);
+
+            String hql = """
             SELECT c, COUNT(r)
             FROM Result r
             JOIN r.constructor c
@@ -110,15 +123,27 @@ public class ConstructorDaoImpl implements org.example.proyecto_aed_dad.dao.inte
             ORDER BY COUNT(r) DESC
             """;
 
-        return session.createQuery(hql, Object[].class)
-                .setParameter("country", country)
-                .setMaxResults(10) // Limita a los 10 primeros pilotos
-                .getResultList();
+            session.getTransaction().commit();
+
+            return session.createQuery(hql, Object[].class)
+                    .setParameter("country", country)
+                    .setMaxResults(10) // Limita a los 10 primeros pilotos
+                    .getResultList();
+        }catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close(); // Solo cerramos la sesión
+            }
+        }
+        return null;
     }
 
     @Override
     public List<Object[]> findConstructorsWithMostWinsByCircuit(Circuit circuit) {
-        try(Session session = sessionFactory.openSession()) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
             session.beginTransaction();
 
             String hql = """
@@ -137,7 +162,7 @@ public class ConstructorDaoImpl implements org.example.proyecto_aed_dad.dao.inte
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            sessionFactory.close();
+            session.close();
         }
         return null;
     }

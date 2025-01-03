@@ -71,7 +71,9 @@ public class CircuitDaoImpl implements org.example.proyecto_aed_dad.dao.interfac
                 session.getTransaction().rollback();
             }
         } finally {
-            session.close();
+            if (session != null && session.isOpen()) {
+                session.close(); // Solo cerramos la sesión
+            }
         }
     }
 
@@ -90,16 +92,19 @@ public class CircuitDaoImpl implements org.example.proyecto_aed_dad.dao.interfac
                 e.printStackTrace();
             }
         } finally {
-            session.close();
+            if (session != null && session.isOpen()) {
+                session.close(); // Solo cerramos la sesión
+            }
         }
         return null;
     }
 
     @Override
     public List<Object[]> findTracksWithMostRaces() {
+        Session session = null;
         try {
             // devuelve los 10 circuitos con más carreras
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             session.beginTransaction();
 
             String hql = """
@@ -110,13 +115,16 @@ public class CircuitDaoImpl implements org.example.proyecto_aed_dad.dao.interfac
             ORDER BY COUNT(r) DESC
             """;
 
+            session.getTransaction().commit();
             return session.createQuery(hql, Object[].class)
                     .setMaxResults(10) // Limita a los 10 primeros pilotos
                     .getResultList();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            sessionFactory.close();
+            if (session != null && session.isOpen()) {
+                session.close(); // Solo cerramos la sesión
+            }
         }
         return null;
     }

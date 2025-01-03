@@ -96,8 +96,9 @@ public class ResultDaoImpl implements org.example.proyecto_aed_dad.dao.interface
 
     @Override
     public List<Result> getResultsByCountry(String country) {
-        Session session = sessionFactory.openSession();
+        Session session = null;
         try {
+            session = sessionFactory.openSession();
             session.beginTransaction();
             String hql = "SELECT r FROM Result r WHERE r.race.circuit.country = :country ORDER BY r.number";
             List<Result> results = session.createQuery(hql, Result.class)
