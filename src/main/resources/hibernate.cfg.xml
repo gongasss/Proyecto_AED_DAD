@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://localhost:3306/formula1</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">test</property>
+    <!--property name="hibernate.hbm2ddl.auto">create</property-->
+    <property name="show_sql">true</property>
+    <mapping class="org.example.proyecto_aed_dad.entity.Circuit"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.Constructor"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.ConstructorsResult"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.ConstructorStanding"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.Result"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.SprintResult"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.Qualifying"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.Race"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.Driver"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.DriverStanding"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.LapTime"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.PitStop"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.Season"/>
+    <mapping class="org.example.proyecto_aed_dad.entity.Status"/>
+
+    <!--  DB schema will be updated if needed  -->
+  </session-factory>
+</hibernate-configuration>
